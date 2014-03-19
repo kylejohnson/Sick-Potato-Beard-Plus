@@ -26,5 +26,8 @@
   apt: pkg=sabnzbdplus-theme-smpl state=installed
   sudo: yes
 
+- name: Create sabnzbd's script_dir
+  file: dest=/home/aargh/.sabnzbd/scripts owner=aargh group=aargh mode=0700 state=directory
+
 - name: start sabnzbd
   service: name=sabnzbdplus state=started enabled=yes
