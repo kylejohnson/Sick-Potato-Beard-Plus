@@ -1,6 +1,6 @@
 ---
 - name: Download sickbeard from github
-  git: repo=https://github.com/midgetspy/Sick-Beard.git dest=/home/aargh/Sick-Beard
+  git: repo=https://github.com/midgetspy/Sick-Beard.git dest=/home/aargh/Sick-Beard update=no
   sudo: yes
   sudo_user: aargh
 
