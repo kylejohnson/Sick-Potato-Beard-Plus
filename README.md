@@ -1,5 +1,5 @@
-# sicksabpotatobeard
-sicksabpotatobeard is an Ansible playbook for installing sabnzbdplus, sickbeard
+# Sick-Potato-Beard-Plus
+An Ansible playbook for installing sabnzbdplus, sickbeard
 and couchpotato.  This playbook will also create required users, install base
 configuration files and start necessary services.
 
