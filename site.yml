@@ -1,6 +1,15 @@
 ---
 - name: Create sabnzbd user and install sabnzbd, couchpotato and sickbeard.
   hosts: usenet
+  vars:
+    usenet_server_name: # Name of your usenet provider
+    usenet_server_username: # Username used to log into your usenet provider
+    usenet_server_host: # Usenet provider server's hostname
+    usenet_server_password: # Password used to log into your usenet provider
+    usenet_server_port: # Look this up from your usenet provider.
+    usenet_server_ssl: # 1 = yes, 0 = no
+    usenet_server_retention: # Look this up from your usenet provider. 0 = unlimited
+    
 
   roles:
     - user

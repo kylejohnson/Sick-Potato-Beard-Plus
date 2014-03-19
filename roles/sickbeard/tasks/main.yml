@@ -12,5 +12,17 @@
   command: mv /home/aargh/Sick-Beard/init.ubuntu /etc/init.d/sickbeard
   sudo: yes
 
+- name: Copy the autoProcessTV.cfg.sample file
+  command: cp /home/aargh/Sick-Beard/autoProcessTV/autoProcessTV.cfg.sample /home/aargh/.sabnzbd/scripts/autoProcessTV.cfg
+
+- name: Copy the sabToSickBeard.py file
+  command: cp /home/aargh/Sick-Beard/autoProcessTV/sabToSickBeard.py /home/aargh/.sabnzbd/scripts/sabToSickBeard.py
+
+- name: Copy the autoProcessTV.py file
+  command: cp /home/aargh/Sick-Beard/autoProcessTV/autoProcessTV.py /home/aargh/.sabnzbd/scripts/autoProcessTV.py
+
+- name: Create sabnzbd's script_dir
+  file: dest=/home/aargh/.sabnzbd/scripts owner=aargh group=aargh mode=0700
+
 - name: Start sickbeard
   service: name=sickbeard state=started enabled=yes

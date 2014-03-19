@@ -7,9 +7,20 @@
   apt: pkg=sabnzbdplus state=installed
   sudo: yes
 
-- name: Upload sabnzbd config file
+- name: Upload sabnzbd default config file
   copy: src=sabnzbdplus dest=/etc/default/sabnzbdplus mode=0644
   sudo: yes
+
+- name: Generate the random API key
+  shell: (if [ ! -f /home/aargh/.sabnzbd/apikey ]; then epoch=`date +%s`; rand=`od -An -N3 -i /dev/random`; m=$rand$epoch; echo $m | md5sum | cut -f 1 -d ' ' | tee /home/aargh/.sabnzbd/apikey; else cat /home/aargh/.sabnzbd/apikey; fi)
+  register: apikey
+
+- name: Generate the random NZB key
+  shell: (if [ ! -f /home/aargh/.sabnzbd/nzbkey ]; then epoch=`date +%s`; rand=`od -An -N3 -i /dev/random`; m=$rand$epoch; echo $m | md5sum | cut -f 1 -d ' ' | tee /home/aargh/.sabnzbd/nzbkey; else cat /home/aargh/.sabnzbd/nzbkey; fi)
+  register: nzbkey
+
+- name: Upload sabnzbd config file
+  template: src=sabnzbd.ini dest=/home/aargh/.sabnzbd/sabnzbd.ini mode=0600
 
 - name: Installs sabnzbd theme
   apt: pkg=sabnzbdplus-theme-smpl state=installed
