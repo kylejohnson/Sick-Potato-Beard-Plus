@@ -1,0 +1,19 @@
+---
+- name: Installs git
+  apt: pkg=git state=installed
+  sudo: yes
+
+- name: Installs sabnzbd
+  apt: pkg=sabnzbdplus state=installed
+  sudo: yes
+
+- name: Upload sabnzbd config file
+  copy: src=sabnzbdplus dest=/etc/default/sabnzbdplus mode=0644
+  sudo: yes
+
+- name: Installs sabnzbd theme
+  apt: pkg=sabnzbdplus-theme-smpl state=installed
+  sudo: yes
+
+- name: start sabnzbd
+  service: name=sabnzbdplus state=started enabled=yes

@@ -1,0 +1,3 @@
+SB_USER=aargh         #$RUN_AS, username to run sickbeard under, the default is sickbeard
+SB_HOME=/home/aargh/Sick-Beard         #$APP_PATH, the location of SickBeard.py, the default is /opt/sickbeard
+

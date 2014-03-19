@@ -1,0 +1,16 @@
+---
+- name: Download sickbeard from github
+  git: repo=https://github.com/midgetspy/Sick-Beard.git dest=/home/aargh/Sick-Beard
+  sudo: yes
+  sudo_user: aargh
+
+- name: Copy the sickbeard default config
+  copy: src=sickbeard dest=/etc/default/sickbeard mode=0644
+  sudo: yes
+
+- name: Copy the sickbeard init file
+  command: mv /home/aargh/Sick-Beard/init.ubuntu /etc/init.d/sickbeard
+  sudo: yes
+
+- name: Start sickbeard
+  service: name=sickbeard state=started enabled=yes

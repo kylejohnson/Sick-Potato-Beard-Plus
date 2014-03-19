@@ -1,0 +1,8 @@
+---
+- name: Create sabnzbd user and install sabnzbd, couchpotato and sickbeard.
+  hosts: usenet
+
+  roles:
+    - user
+    - sabnzbd
+    - sickbeard

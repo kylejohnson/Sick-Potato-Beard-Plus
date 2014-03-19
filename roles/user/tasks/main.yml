@@ -1,0 +1,3 @@
+---
+- name: Create sabnzbd / couchpotato / sick beard user
+  user: name=aargh
