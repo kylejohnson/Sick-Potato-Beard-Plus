@@ -5,20 +5,21 @@
   sudo_user: aargh
 
 - name: Copy the sickbeard default config
-  copy: src=sickbeard dest=/etc/default/sickbeard mode=0644
+  copy: src=sickbeard dest=/etc/default/sickbeard mode=0644 owner=root group=root
   sudo: yes
 
-  command: mv /home/aargh/Sick-Beard/init.ubuntu /etc/init.d/sickbeard
+- name: Link the sickbeard init file
+  file: src=/home/aargh/Sick-Beard/init.ubuntu dest=/etc/init.d/sickbeard owner=root group=root state=link
   sudo: yes
 
 - name: Copy the autoProcessTV.cfg.sample file
-  command: cp /home/aargh/Sick-Beard/autoProcessTV/autoProcessTV.cfg.sample /home/aargh/.sabnzbd/scripts/autoProcessTV.cfg
+  file: src=/home/aargh/Sick-Beard/autoProcessTV/autoProcessTV.cfg.sample dest=/home/aargh/.sabnzbd/scripts/autoProcessTV.cfg owner=aargh group=aargh state=file
 
 - name: Copy the sabToSickBeard.py file
-  command: cp /home/aargh/Sick-Beard/autoProcessTV/sabToSickBeard.py /home/aargh/.sabnzbd/scripts/sabToSickBeard.py
+  file: src=/home/aargh/Sick-Beard/autoProcessTV/sabToSickBeard.py dest=/home/aargh/.sabnzbd/scripts/sabToSickBeard.py owner=aargh group=aargh state=file
 
 - name: Copy the autoProcessTV.py file
-  command: cp /home/aargh/Sick-Beard/autoProcessTV/autoProcessTV.py /home/aargh/.sabnzbd/scripts/autoProcessTV.py
+  file: src=/home/aargh/Sick-Beard/autoProcessTV/autoProcessTV.py dest=/home/aargh/.sabnzbd/scripts/autoProcessTV.py owner=aargh group=aargh state=file
 
 - name: Start sickbeard
   service: name=sickbeard state=started enabled=yes
