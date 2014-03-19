@@ -20,7 +20,7 @@
   register: nzbkey
 
 - name: Upload sabnzbd config file
-  template: src=sabnzbd.ini dest=/home/aargh/.sabnzbd/sabnzbd.ini mode=0600
+  template: src=sabnzbd.ini dest=/home/aargh/.sabnzbd/sabnzbd.ini mode=0600 backup=yes owner=aargh group=aargh
 
 - name: Installs sabnzbd theme
   apt: pkg=sabnzbdplus-theme-smpl state=installed
