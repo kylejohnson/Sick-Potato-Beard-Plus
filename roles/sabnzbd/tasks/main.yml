@@ -12,11 +12,11 @@
   sudo: yes
 
 - name: Generate the random API key
-  shell: (if [ ! -f /home/aargh/.sabnzbd/apikey ]; then epoch=`date +%s`; rand=`od -An -N3 -i /dev/random`; m=$rand$epoch; echo $m | md5sum | cut -f 1 -d ' ' | tee /home/aargh/.sabnzbd/apikey; else cat /home/aargh/.sabnzbd/apikey; fi)
+  shell: (epoch=`date +%s`; rand=`od -An -N3 -i /dev/random`; m=$rand$epoch; echo $m | md5sum | cut -f 1 -d ' ' | tee /home/aargh/.sabnzbd/apikey) creates=/home/aargh/.sabnzbd/apikey
   register: apikey
 
 - name: Generate the random NZB key
-  shell: (if [ ! -f /home/aargh/.sabnzbd/nzbkey ]; then epoch=`date +%s`; rand=`od -An -N3 -i /dev/random`; m=$rand$epoch; echo $m | md5sum | cut -f 1 -d ' ' | tee /home/aargh/.sabnzbd/nzbkey; else cat /home/aargh/.sabnzbd/nzbkey; fi)
+  shell: (epoch=`date +%s`; rand=`od -An -N3 -i /dev/random`; m=$rand$epoch; echo $m | md5sum | cut -f 1 -d ' ' | tee /home/aargh/.sabnzbd/nzbkey) creates=/home/aargh/.sabnzbd/nzbkey
   register: nzbkey
 
 - name: Upload sabnzbd config file
