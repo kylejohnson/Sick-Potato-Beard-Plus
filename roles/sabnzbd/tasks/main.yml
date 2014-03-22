@@ -11,11 +11,11 @@
   copy: src=sabnzbdplus dest=/etc/default/sabnzbdplus mode=0644
   sudo: yes
 
-- name: Start sabnzbd
-  service: name=sabnzbdplus state=started
+- name: Create .sabnzbd
+  file: path=/home/aargh/.sabnzbd owner=aargh group=aargh state=directory
 
-- name: Stop sabnzbd
-  service: name=sabnzbdplus state=stopped
+- name: Create .sabnzbd/scripts
+  file: path=/home/aargh/.sabnzbd/scripts owner=aargh group=aargh state=directory
 
 - name: Generate the random API key
   shell: (epoch=`date +%s`; rand=`od -An -N3 -i /dev/random`; m=$rand$epoch; echo $m | md5sum | cut -f 1 -d ' ' | tee /home/aargh/.sabnzbd/apikey) creates=/home/aargh/.sabnzbd/apikey
