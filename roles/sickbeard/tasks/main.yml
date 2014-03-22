@@ -12,14 +12,31 @@
   file: src=/home/aargh/Sick-Beard/init.ubuntu dest=/etc/init.d/sickbeard owner=root group=root state=link
   sudo: yes
 
-- name: Copy the autoProcessTV.cfg.sample file
-  file: src=/home/aargh/Sick-Beard/autoProcessTV/autoProcessTV.cfg.sample dest=/home/aargh/.sabnzbd/scripts/autoProcessTV.cfg owner=aargh group=aargh state=file
+- name: Copy the autoProcessTV.cfg file
+  file: src=/home/aargh/Sick-Beard/autoProcessTV/autoProcessTV.cfg.sample dest=/home/aargh/.sabnzbd/scripts/autoProcessTV.cfg
+        owner=aargh group=aargh state=link
 
 - name: Copy the sabToSickBeard.py file
-  file: src=/home/aargh/Sick-Beard/autoProcessTV/sabToSickBeard.py dest=/home/aargh/.sabnzbd/scripts/sabToSickBeard.py owner=aargh group=aargh state=file
+  file: src=/home/aargh/Sick-Beard/autoProcessTV/sabToSickBeard.py dest=/home/aargh/.sabnzbd/scripts/sabToSickBeard.py
+        owner=aargh group=aargh state=link
 
 - name: Copy the autoProcessTV.py file
-  file: src=/home/aargh/Sick-Beard/autoProcessTV/autoProcessTV.py dest=/home/aargh/.sabnzbd/scripts/autoProcessTV.py owner=aargh group=aargh state=file
+  file: src=/home/aargh/Sick-Beard/autoProcessTV/autoProcessTV.py dest=/home/aargh/.sabnzbd/scripts/autoProcessTV.py
+        owner=aargh group=aargh state=link
 
-- name: Start sickbeard
+- name: Create /opt/sickbeard
+  file: path=/opt/sickbeard owner=aargh group=aargh state=directory
+
+- name: Get sabnzbd's api key
+  command: cat /home/aargh/.sabnzbd/apikey
+  register: apikey
+
+- name: Copy the sickbeard config file
+  template: src=config.ini dest=/opt/sickbeard/config.ini owner=aargh group=aargh
+
+- name: Ensure sickbeard has the correct sabnzbd api key
+  ini_file: dest=/opt/sickbeard/config.ini section=SABnzbd option=sab_apikey value={{ apikey.stdout }}
+            owner=aargh group=aargh
+
+- name: Ensure sickbeard is started and enabled
   service: name=sickbeard state=started enabled=yes
