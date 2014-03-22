@@ -17,14 +17,18 @@
 - name: Create .sabnzbd/scripts
   file: path=/home/aargh/.sabnzbd/scripts owner=aargh group=aargh state=directory
 
+- name: Copy over the keygen script
+  copy: src=keygen.sh dest=/home/aargh/.sabnzbd/keygen.sh
+        owner=aargh group=aargh mode=0550
+
 - name: Generate the random API key
-  shell: (epoch=`date +%s`; rand=`od -An -N3 -i /dev/random`; m=$rand$epoch; echo $m | md5sum | cut -f 1 -d ' ' | tee /home/aargh/.sabnzbd/apikey) creates=/home/aargh/.sabnzbd/apikey
+  command: /home/aargh/.sabnzbd/keygen.sh apikey
   register: apikey
   sudo: yes
   sudo_user: aargh
 
 - name: Generate the random NZB key
-  shell: (epoch=`date +%s`; rand=`od -An -N3 -i /dev/random`; m=$rand$epoch; echo $m | md5sum | cut -f 1 -d ' ' | tee /home/aargh/.sabnzbd/nzbkey) creates=/home/aargh/.sabnzbd/nzbkey
+  command: /home/aargh/.sabnzbd/keygen.sh nzbkey
   register: nzbkey
   sudo: yes
   sudo_user: aargh
@@ -32,5 +36,5 @@
 - name: Upload sabnzbd config file
   template: src=sabnzbd.ini dest=/home/aargh/.sabnzbd/sabnzbd.ini mode=0600 backup=yes owner=aargh group=aargh
 
-- name: Start sabnzbd
+- name: Ensure sabnzbd is started and enabled
   service: name=sabnzbdplus state=started enabled=yes
