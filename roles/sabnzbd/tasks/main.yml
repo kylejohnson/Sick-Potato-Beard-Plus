@@ -1,9 +1,9 @@
 ---
-- name: Installs git
+- name: Ensure git is installed
   apt: pkg=git state=installed
   sudo: yes
 
-- name: Installs sabnzbd
+- name: Ensure sabnzbdplus is installed
   apt: pkg=sabnzbdplus state=installed
   sudo: yes
 
@@ -11,23 +11,26 @@
   copy: src=sabnzbdplus dest=/etc/default/sabnzbdplus mode=0644
   sudo: yes
 
+- name: Start sabnzbd
+  service: name=sabnzbdplus state=started
+
+- name: Stop sabnzbd
+  service: name=sabnzbdplus state=stopped
+
 - name: Generate the random API key
   shell: (epoch=`date +%s`; rand=`od -An -N3 -i /dev/random`; m=$rand$epoch; echo $m | md5sum | cut -f 1 -d ' ' | tee /home/aargh/.sabnzbd/apikey) creates=/home/aargh/.sabnzbd/apikey
   register: apikey
+  sudo: yes
+  sudo_user: aargh
 
 - name: Generate the random NZB key
   shell: (epoch=`date +%s`; rand=`od -An -N3 -i /dev/random`; m=$rand$epoch; echo $m | md5sum | cut -f 1 -d ' ' | tee /home/aargh/.sabnzbd/nzbkey) creates=/home/aargh/.sabnzbd/nzbkey
   register: nzbkey
+  sudo: yes
+  sudo_user: aargh
 
 - name: Upload sabnzbd config file
   template: src=sabnzbd.ini dest=/home/aargh/.sabnzbd/sabnzbd.ini mode=0600 backup=yes owner=aargh group=aargh
 
-- name: Installs sabnzbd theme
-  apt: pkg=sabnzbdplus-theme-smpl state=installed
-  sudo: yes
-
-- name: Create sabnzbd's script_dir
-  file: dest=/home/aargh/.sabnzbd/scripts owner=aargh group=aargh mode=0700 state=directory
-
-- name: start sabnzbd
+- name: Start sabnzbd
   service: name=sabnzbdplus state=started enabled=yes
