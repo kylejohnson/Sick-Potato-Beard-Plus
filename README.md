@@ -6,6 +6,13 @@ configuration files and start necessary services.
 The goal of this playbook is to have a functioning system at the completion of
 the run.
 
+## Platforms
+Tested on:
+
+ * Ubuntu 12.04
+ * Ubuntu 13.04
+ * Ubuntu 13.10
+ 
 ## How To Use
 If you aren't already using Ansible, this might not be right for you.
 
