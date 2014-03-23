@@ -1,0 +1,21 @@
+---
+- name: Download CouchPotato from github
+  git: repo=https://github.com/RuudBurger/CouchPotatoServer.git dest=/home/aargh/CouchPotatoServer update=no
+  sudo: yes
+  sudo_user: aargh
+
+- name: Copy the CouchPotato init file
+  file: src=/home/aargh/CouchPotatoServer/init/ubuntu dest=/etc/init.d/couchpotato
+        owner=root group=root state=link mode=0755
+  sudo: yes
+
+- name: Copy the CouchPotato default config file
+  copy: src=couchpotato dest=/etc/default/couchpotato owner=root group=root mode=0644
+
+- name: Copy the CouchPotato settings.conf file
+  template: src=settings.conf dest=/var/couchpotato/settings.conf owner=aargh group=aargh mode=0666
+
+- name: Start CouchPotato on boot
+  service: name=couchpotato state=started enabled=yes
+  sudo: yes
+
